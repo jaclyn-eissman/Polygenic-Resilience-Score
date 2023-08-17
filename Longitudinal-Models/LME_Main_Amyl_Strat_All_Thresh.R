@@ -1,3 +1,5 @@
+#By Jaclyn Eissman, July 19, 2022
+
 #Packages
 library(stringr)
 library(nlme)
