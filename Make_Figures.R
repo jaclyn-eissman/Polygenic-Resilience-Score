@@ -1,3 +1,5 @@
+#By Jaclyn Eissman, October 3, 2022
+
 #Packages
 library(ggplot2)
 library(dplyr)
@@ -109,5 +111,3 @@ ggplot(data=Data[!is.na(Data$Amyloid.pos.factor),], aes(x=GLOBALRES_0.01_wAPOE, 
   theme(axis.title.x=element_text(colour="black",size=24,face="bold")) + theme(legend.title=element_blank()) +
   theme(axis.title.y=element_text(colour="black",size=24,face="bold"))
 dev.off()
-
-
