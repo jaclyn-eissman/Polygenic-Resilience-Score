@@ -1,0 +1,16 @@
+#Liftover to hg38
+cd /nfs/eissmajm/Resilience_PRS/LOAD
+awk 'NR>1{ print "chr"$1" "$2-1" "$2" "$3 }' Kunkle_etal_Stage1_results.txt > Alzheimers_Disease_hg19_forliftover.txt 
+/data/h_vmac/GWAS_QC/liftOver Alzheimers_Disease_hg19_forliftover.txt /data/h_vmac/GWAS_QC/hg19ToHg38.over.chain.gz Alzheimers_Disease_lifted.txt Alzheimers_Disease_unlifted.txt
+
+#Combine back with rest of summary stats 
+hg19 <- fread("Kunkle_etal_Stage1_results.txt",header=T)
+lifted <- fread("Alzheimers_Disease_lifted.txt")
+final <- merge(lifted,hg19,by.x="V4",by.y="MarkerName")
+final <- final[,c("V4","Effect_allele","Non_Effect_allele","Beta","Pvalue")]
+final <- na.omit(final)
+names(final) <- c("SNP","A1","A2","BETA","P")
+write.table(final,"Alzheimers_Disease_hg38.txt",quote=F,col.names=T,row.names=F)
+
+#Run PRS 
+singularity exec --containall --bind /nfs:/nfs/ --bind /nfs/eissmajm/Resilience_PRS/:/input/ /data/h_vmac/GWAS_QC/singularity/CNT_genomic_processing_v2.5.simg /bin/bash -c "cd /nfs/mahone1/PRS/ ; bash Generate_PRS.sh -i /input/Genotypes/VMAP_NHW_imputed_final -s /input/LOAD/Alzheimers_Disease_hg38.txt -f /input/LOAD -t LOAD -o LOAD_PRS -p 1,0.01,0.00001 -r 0.5 -w 250 -m 15000 -a -b b38 |& tee /input/LOAD/VMAP_LOAD_PRS_Multi_Thresh.log"
