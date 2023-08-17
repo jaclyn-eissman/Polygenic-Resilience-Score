@@ -1,3 +1,5 @@
+#By Jaclyn Eissman, December 7, 2021
+
 #Packages
 library(data.table)
 
