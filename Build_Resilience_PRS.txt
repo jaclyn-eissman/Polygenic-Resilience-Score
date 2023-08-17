@@ -1,0 +1,27 @@
+#Run GLOBALRES GWAS on hg38 and then copy over 
+rsync -avh /nfs/eissmajm/Sex_Diff_Final/DATA/ACT_ROSMAP_final.* /data/h_vmac/eissmajm/GWAS_jobs/GLOBALRES_Main_b38/
+rsync -avh /nfs/eissmajm/Sex_Diff_Final/DATA/ADNI_A4_final.* /data/h_vmac/eissmajm/GWAS_jobs/GLOBALRES_Main_b38/
+rsync -avh /nfs/eissmajm/Sex_Diff_Final/DATA/All_datasets_MPlus_Resilience_Covariates_updated.txt /data/h_vmac/eissmajm/GWAS_jobs/GLOBALRES_Main_b38/
+rsync -avh /nfs/eissmajm/Sex_Diff_Final/DATA/All_datasets_MPlus_Resilience_Phenotypes_updated.txt /data/h_vmac/eissmajm/GWAS_jobs/GLOBALRES_Main_b38/
+
+#Submit and run batch job
+sbatch /data/h_vmac/eissmajm/GWAS_jobs/GLOBALRES_Main_b38/Run_Main_GLOBALRES_b38.slurm
+rsync -avh /data/h_vmac/eissmajm/GWAS_jobs/GLOBALRES_Main_b38/* /nfs/eissmajm/Resilience_PRS/Resilience/ 
+rm -r /data/h_vmac/eissmajm/GWAS_jobs/GLOBALRES_Main_b38/
+
+#Make input meta-analysis files
+perl /nfs/eissmajm/scripts/plink2GWAMA_modified.pl /nfs/eissmajm/Resilience_PRS/Resilience/ACT_ROSMAP.assoc.linear /nfs/eissmajm/Resilience_PRS/Resilience/ACT_ROSMAP_final.frq /nfs/eissmajm/Resilience_PRS/Resilience/AUTOPSY_input.GWAMA
+perl /nfs/eissmajm/scripts/plink2GWAMA_modified.pl /nfs/eissmajm/Resilience_PRS/Resilience/ADNI_A4.assoc.linear /nfs/eissmajm/Resilience_PRS/Resilience/ADNI_A4_final.frq /nfs/eissmajm/Resilience_PRS/Resilience/PET_input.GWAMA
+
+#Meta-analysis -- hg38
+printf "/nfs/eissmajm/Resilience_PRS/Resilience/AUTOPSY_input.GWAMA
+/nfs/eissmajm/Resilience_PRS/Resilience/PET_input.GWAMA" > /nfs/eissmajm/Resilience_PRS/Resilience/PET_AUTOPSY.in
+GWAMA --filelist /nfs/eissmajm/Resilience_PRS/Resilience/PET_AUTOPSY.in --output /nfs/eissmajm/Resilience_PRS/Resilience/PET_AUTOPSY --quantitative --name_marker MARKERNAME
+
+#Restrict to SNPs in both datasets sets
+awk '{ if($15==2 || NR==1) print }' /nfs/eissmajm/Resilience_PRS/Resilience/PET_AUTOPSY.out > /nfs/eissmajm/Resilience_PRS/Resilience/PET_AUTOPSY_2sets.out
+awk ' NR>1{ print $1, $2, $3, $5, $10 } ' /nfs/eissmajm/Resilience_PRS/Resilience/PET_AUTOPSY_2sets.out > /nfs/eissmajm/Resilience_PRS/Resilience/PET_AUTOPSY_2sets.txt
+sed  -i '1i SNP A1 A2 BETA P' /nfs/eissmajm/Resilience_PRS/Resilience/PET_AUTOPSY_2sets.txt
+
+#Run Resilience PRS
+singularity exec --containall --bind /nfs:/nfs/ --bind /nfs/eissmajm/Resilience_PRS/:/input/ /data/h_vmac/GWAS_QC/singularity/CNT_genomic_processing_v2.5.simg /bin/bash -c "cd /nfs/mahone1/PRS/ ; bash Generate_PRS.sh -i /input/Genotypes/VMAP_NHW_imputed_final -s /input/Resilience/PET_AUTOPSY_2sets.txt -f /input/Resilience -t GLOBALRES -o GLOBALRES_PRS -p 1,0.01,0.00001 -r 0.5 -w 250 -m 15000 -a -b b38 |& tee /input/Resilience/VMAP_GLOBALRES_PRS_Multi_Thresh.log"
