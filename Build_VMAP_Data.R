@@ -1,3 +1,5 @@
+#By Jaclyn Eissman, December 7, 2021
+
 #Packages
 library(nlme)
 library(data.table)
@@ -71,5 +73,3 @@ length(unique(data_long$ID))
 #Write out
 saveRDS(data_baseline,paste0(dir,"Data/VMAP_Baseline_Data_Master.rds"))
 saveRDS(data_long,paste0(dir,"Data/VMAP_Longitudinal_Data_Master.rds"))
-
-
