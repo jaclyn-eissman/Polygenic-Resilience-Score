@@ -11,7 +11,7 @@ library(dplyr)
 dir <- "/Users/jackieeissman/Box Sync/Hohman_Lab/Students/Jaclyn Eissman/Resilience_PRS/"
 source(paste0(dir,"Scripts/get_slopes.R"))
 
-###BUILD SLOPES
+###Build memory slopes
 data <- readRDS(paste0(dir,"Data/MAP_bh_d20220301_m20220301.rds"))
 data$map.id <- as.numeric(gsub("^0+", "", data$map.id))
 data$np.memory.composite <- as.numeric(data$np.memory.composite)
@@ -24,7 +24,7 @@ data <- data[order(data$map.id, data$age),]
 data$first <- Lag(data$map.id) != data$map.id
 data$first[1] <- T
 
-#Build 1st  first
+#Build 1st first
 data_first <- data[data$first==T,]
 data_first <- data_first[,c("map.id", "age", "diagnosis.factor")]
 names(data_first) <- c("map.id", "age_bl", "dx_bl")
@@ -57,7 +57,7 @@ data <- data[,c("map.id","age","age_bl","num_visits_MEM","sex","np.memory.compos
 names(data) <- c("map.id","Age","Age_bl","num_visits_MEM","Sex","MEM","memslopes","interval_MEM","CSF.ab1.42",
                  "Amyloid.pos.factor","first","last","Education","Apoe4.pos.factor","Dx_bl")
 
-#Make baseline and long. dfs
+#Make baseline and longitudinal dfs
 names(data)[1] <- "ID"
 data_baseline <- data %>% filter(first==T)
 data_baseline <- as.data.frame(data_baseline)
