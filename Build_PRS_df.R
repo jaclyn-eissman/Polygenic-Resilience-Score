@@ -95,6 +95,3 @@ PRS <- merge(LOAD_Final,GLOBALRES_Final,by="ID")
 
 #Write out PRS file
 saveRDS(PRS,paste0(dir,"Data/VMAP_PRS_Master.rds"))
-
-
-
