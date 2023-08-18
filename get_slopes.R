@@ -1,5 +1,9 @@
+#By Timothy Hohman
+
+#Load package
 require(nlme)
 
+#Set-up function called get_slopes() 
 get_slopes <- function(input,outcome,interval,id,label){
   
   data <- input
