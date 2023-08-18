@@ -12,22 +12,7 @@ Data_bl <- readRDS(paste0(dir,"Data/VMAP_Baseline_Data_Master.rds"))
 PRS_df <- readRDS(paste0(dir,"Data/VMAP_PRS_Master.rds"))
 Data <- merge(Data_bl,PRS_df,by="ID")
 
-#Descriptives
-#Data_long <- readRDS(paste0(dir,"Data/VMAP_Longitudinal_Data_Master.rds"))
-#PRS_df <- readRDS(paste0(dir,"Data/VMAP_PRS_Master.rds"))
-#Data <- merge(Data_long,PRS_df,by="ID")
-#mean(Data$num_visits_MEM,na.rm=T) +/- sd(Data$num_visits_MEM,na.rm=T)
-#mean(Data$interval_MEM,na.rm=T) +/- sd(Data$interval_MEM,na.rm=T)
-#mean(Data$Age_bl,na.rm=T) +/- sd(Data$Age_bl,na.rm=T)
-#mean(Data$Education,na.rm=T) +/- sd(Data$Education,na.rm=T)
-#Data_bl <- Data %>% filter(interval_MEM==0)
-#(length(unique(Data$ID))/334)*100
-#(nrow(Data_bl[Data_bl$Sex==2,])/334)*100
-#(nrow(Data_bl[Data_bl$Apoe4.pos.factor=="Yes",])/334)*100
-#(nrow(Data_bl[Data_bl$Amyloid.pos.factor=="Yes",])/334)*100
-#(nrow(Data_bl[Data_bl$Dx_bl=="MCI",])/334)*100
-
-#For Paper
+#Plot LOAD PRS Main Effects -- Baseline
 png(paste0(dir,"Figures/LOAD_PRS_Main_Effects_Baseline.png"),width=8.5,height=6,res=300,units="in")
 ggplot(data=Data, aes(x=LOAD_0.01_wAPOE, y=MEM)) + 
   geom_point() + geom_smooth(method="lm",color="grey10") + 
@@ -37,6 +22,7 @@ ggplot(data=Data, aes(x=LOAD_0.01_wAPOE, y=MEM)) +
   theme(axis.title.y=element_text(colour="black",size=20,face="bold"))
 dev.off()
 
+#Plot Resilience PRS Main Effects -- Baseline
 png(paste0(dir,"Figures/GLOBALRES_PRS_Main_Effects_Baseline.png"),width=8.5,height=6,res=300,units="in")
 ggplot(data=Data, aes(x=GLOBALRES_0.01_wAPOE, y=MEM)) + 
   geom_point() + geom_smooth(method="lm",color="grey10") + 
@@ -46,6 +32,7 @@ ggplot(data=Data, aes(x=GLOBALRES_0.01_wAPOE, y=MEM)) +
   theme(axis.title.y=element_text(colour="black",size=20,face="bold"))
 dev.off()
 
+#Plot LOAD PRS Main Effects -- Decline
 png(paste0(dir,"Figures/LOAD_PRS_Main_Effects_Decline.png"),width=8.5,height=6,res=300,units="in")
 ggplot(data=Data, aes(x=LOAD_0.01_wAPOE, y=memslopes)) + 
   geom_point() + geom_smooth(method="lm",color="grey10") + 
@@ -55,6 +42,7 @@ ggplot(data=Data, aes(x=LOAD_0.01_wAPOE, y=memslopes)) +
   theme(axis.title.y=element_text(colour="black",size=20,face="bold"))
 dev.off()
 
+#Plot Resilience PRS Main Effects -- Decline
 png(paste0(dir,"Figures/GLOBALRES_PRS_Main_Effects_Decline.png"),width=8.5,height=6,res=300,units="in")
 ggplot(data=Data, aes(x=GLOBALRES_0.01_wAPOE, y=memslopes)) + 
   geom_point() + geom_smooth(method="lm",color="grey10") + 
@@ -64,6 +52,7 @@ ggplot(data=Data, aes(x=GLOBALRES_0.01_wAPOE, y=memslopes)) +
   theme(axis.title.y=element_text(colour="black",size=20,face="bold"))
 dev.off()
 
+#Plot LOAD PRS Stratified -- Baseline
 png(paste0(dir,"Figures/LOAD_PRS_Amyloid_Stratified_Baseline.png"),width=8.5,height=6,res=300,units="in")
 ggplot(data=Data[!is.na(Data$Amyloid.pos.factor),], aes(x=LOAD_0.01_wAPOE, y=MEM, 
                                                         color=Amyloid.pos.factor, linetype=Amyloid.pos.factor)) + 
@@ -76,6 +65,7 @@ ggplot(data=Data[!is.na(Data$Amyloid.pos.factor),], aes(x=LOAD_0.01_wAPOE, y=MEM
   theme(axis.title.y=element_text(colour="black",size=24,face="bold"))
 dev.off()
 
+#Plot Resilience PRS Stratified -- Baseline
 png(paste0(dir,"Figures/Resilience_PRS_Amyloid_Stratified_Baseline.png"),width=8.5,height=6,res=300,units="in")
 ggplot(data=Data[!is.na(Data$Amyloid.pos.factor),], aes(x=GLOBALRES_0.01_wAPOE, y=MEM, 
                                                         color=Amyloid.pos.factor, linetype=Amyloid.pos.factor)) + 
@@ -88,6 +78,7 @@ ggplot(data=Data[!is.na(Data$Amyloid.pos.factor),], aes(x=GLOBALRES_0.01_wAPOE, 
   theme(axis.title.y=element_text(colour="black",size=24,face="bold"))
 dev.off()
 
+#Plot LOAD PRS Stratified -- Decline
 png(paste0(dir,"Figures/LOAD_PRS_Amyloid_Stratified_Decline.png"),width=8.5,height=6,res=300,units="in")
 ggplot(data=Data[!is.na(Data$Amyloid.pos.factor),], aes(x=LOAD_0.01_wAPOE, y=memslopes, 
                                                         color=Amyloid.pos.factor, linetype=Amyloid.pos.factor)) + 
@@ -100,6 +91,7 @@ ggplot(data=Data[!is.na(Data$Amyloid.pos.factor),], aes(x=LOAD_0.01_wAPOE, y=mem
   theme(axis.title.y=element_text(colour="black",size=24,face="bold"))
 dev.off()
 
+#Plot Resilience PRS Stratified -- Decline
 png(paste0(dir,"Figures/Resilience_PRS_Amyloid_Stratified_Decline.png"),width=8.5,height=6,res=300,units="in")
 ggplot(data=Data[!is.na(Data$Amyloid.pos.factor),], aes(x=GLOBALRES_0.01_wAPOE, y=memslopes, 
                                                         color=Amyloid.pos.factor, linetype=Amyloid.pos.factor)) + 
