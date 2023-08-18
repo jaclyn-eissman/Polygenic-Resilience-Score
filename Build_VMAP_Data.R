@@ -19,33 +19,33 @@ data$age <- as.numeric(data$age)
 data <- data %>% filter(!is.na(age)) %>% filter(!is.na(np.memory.composite)) #N=335
 data <- data %>% filter(map.id!=12) #N=334 (removed person with dementia)
 
-#get 1st
+#Get 1st first
 data <- data[order(data$map.id, data$age),]
 data$first <- Lag(data$map.id) != data$map.id
 data$first[1] <- T
 
-#build 1st 
+#Build 1st  first
 data_first <- data[data$first==T,]
 data_first <- data_first[,c("map.id", "age", "diagnosis.factor")]
 names(data_first) <- c("map.id", "age_bl", "dx_bl")
 data <- merge(data, data_first, by="map.id")
 
-#get last
+#Get last visit
 data <- data[order(data$map.id, desc(data$age)),]
 data$last <- Lag(data$map.id) != data$map.id
 data$last[1] <- T
 
-#determine number of visits
+#Determine total number of visits
 num_visits_MEM <- data.frame(table(data$map.id), stringsAsFactors=F)
 names(num_visits_MEM) <- c("map.id", "num_visits_MEM")
 data <- merge(data, num_visits_MEM, by="map.id")
 
-#get slopes
+#Get memory slopes
 data$interval <- data$age - data$age_bl
 data_2 <- data %>% filter(num_visits_MEM>=2)
 data <- merge(data,get_slopes(data_2,"np.memory.composite", "interval", "map.id", "memslopes"), by="map.id", all.x=T)
 
-#Subset down
+#Subset down to needed vars
 data$csf.ab1.42 <- as.numeric(data$csf.ab1.42)
 data$education <- as.numeric(data$education)
 data$sex <- as.factor(data$sex)
@@ -70,6 +70,6 @@ data_long <- merge(data_long,data_baseline[,c("ID","Amyloid.pos.factor")],by="ID
 data_long <- as.data.frame(data_long)
 length(unique(data_long$ID))
 
-#Write out
+#Write out RDS
 saveRDS(data_baseline,paste0(dir,"Data/VMAP_Baseline_Data_Master.rds"))
 saveRDS(data_long,paste0(dir,"Data/VMAP_Longitudinal_Data_Master.rds"))
