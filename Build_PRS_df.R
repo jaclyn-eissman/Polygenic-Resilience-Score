@@ -1,4 +1,6 @@
 #By Jaclyn Eissman, July 20, 2022
+#LOAD = late-onset Alzheimer's disease 
+#GLOBALRES = cognitive resilience
 
 #Packages
 library(data.table)
