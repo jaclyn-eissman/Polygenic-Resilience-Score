@@ -14,7 +14,7 @@ Standardized polygenic risk score pipeline was created by Emily Mahoney and vali
 
 GWAS summary statistics were obtained from [Dumitrescu et al., 2020](https://academic.oup.com/brain/article/143/8/2561/5897112?login=false) and [Kunkle et al, 2019](https://www.nature.com/articles/s41588-019-0358-2).
 
-Genetic, biomarker, cognitive data from this study was obtained from the [Vanderbilt Memory & Alzheimer's Center's](https://www.vumc.org/vmac/home) in-house longitudinal, clincial cohort, the [Vandebrilt Memory & Aging Project](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4866875/) (VMAP).
+Genetic, biomarker, cognitive data from this study was obtained from the [Vanderbilt Memory & Alzheimer's Center's](https://www.vumc.org/vmac/home) in-house longitudinal, clincial cohort, the [Vanderbilt Memory & Aging Project](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4866875/) (VMAP).
 
 ## Citation
 
