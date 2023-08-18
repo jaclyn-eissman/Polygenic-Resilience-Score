@@ -10,7 +10,7 @@ GWAS summary stats liftover: `liftOver`, PRS generation: `PLINK` (profile functi
 Please see this Github [repository](https://github.com/VUMC-VMAC/PRS) which contains detail scripts and information on the standardized polygenic risk score (PRS) pipeline leveraged by our Computational Neurogenomics Team.   
 
 ## Acknowledgement
-Standardized polygenic risk score pipeline was created by Emily Mahoney and validated by Jaclyn Eissman.
+Standardized polygenic risk score generation was created by Emily Mahoney and validated by Jaclyn Eissman.
 
 GWAS summary statistics were obtained from [Dumitrescu et al., 2020](https://academic.oup.com/brain/article/143/8/2561/5897112?login=false) and [Kunkle et al, 2019](https://www.nature.com/articles/s41588-019-0358-2).
 
