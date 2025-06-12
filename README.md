@@ -24,4 +24,4 @@ Eissman JM, Wells G, Khan OA, Liu D, Petyuk VA, Gifford KA, Dumitrescu L, Jeffer
 
 ## Contact
 
-For questions, comments, or data inquiries, please email corresponding author, Timothy Hohman, Ph.D. at timothy.j.hohman@vumc.org.
+For questions/comments please email jackieeissman@gmail.com. For data inquiries, please email corresponding author at timothy.j.hohman@vumc.org.
